@@ -39,6 +39,11 @@ volatile uint8_t is_rtc_valid;
 volatile uint8_t needs_gv_save;
 volatile uint8_t is_usb_hid_connected;
 
+/* Writable serial-number buffer, formatted at runtime with the last four
+ * MAC address octets. Must live in DRAM (not a string literal, which is
+ * flash-mapped read-only) because sprintf writes into it. Shared by the
+ * MSC and HID-only descriptor arrays. */
+static char usb_serial_number_str[] = "DP24_00000000";
 #define TUSB_DESC_TOTAL_LEN      (TUD_CONFIG_DESC_LEN + CFG_TUD_HID * TUD_HID_DESC_LEN)
 #define CUSTOM_HID_EPIN_SIZE 63
 #define USBD_CUSTOMHID_OUTREPORT_BUF_SIZE CUSTOM_HID_EPIN_SIZE
@@ -304,7 +309,7 @@ char *msc_hid_string_desc[] =
     (char[]){0x09, 0x04},   // 0: is supported language is English (0x0409)
     "dekuNukem",            // 1: Manufacturer
     "duckyPad Pro",         // 2: Product
-    "DP24_00000000",                // 3: Serial number
+    usb_serial_number_str,  // 3: Serial number
     "duckyPad Pro HID",              // 4
     "duckyPad Pro MSC",                     // 5
 };
@@ -345,7 +350,7 @@ char* hid_string_descriptor[] = {
     (char[]){0x09, 0x04},   // 0: is supported language is English (0x0409)
     "dekuNukem",            // 1: Manufacturer
     "duckyPad Pro",         // 2: Product
-    "DP24_00000000",        // 3: Serial number
+    usb_serial_number_str,  // 3: Serial number
     "duckyPad Pro HID",     // 4
 };
 
