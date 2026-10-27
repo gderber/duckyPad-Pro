@@ -1,4 +1,5 @@
 firmware/dpp_fw/build
+firmware/dpp_fw/components_local/espressif__esp_tinyusb/.component_hash
 firmware/dpp_fw/managed_components
 pc_software/sample_profiles
 pc_software/test.txt
